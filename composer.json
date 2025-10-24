@@ -1,0 +1,14 @@
+{
+    "name": "conauti/api-practicantes-php",
+    "description": "API en PHP Nativo para el sistema de gestión de practicantes de Conauti SAC.",
+    "type": "project",
+    "require": {
+        "php": ">=8.4",
+        "firebase/php-jwt": "^6.10"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    }
+}
