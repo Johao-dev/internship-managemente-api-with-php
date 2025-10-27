@@ -25,4 +25,12 @@ class ApiException extends Exception {
     public static function badRequest(string $message = 'Solicitud incorrecta.') {
         return new self($message, 400);
     }
+
+    public static function conflict(string $message = "Ocurrio un conflicot.") {
+        return new self($message, 409);
+    }
+
+    public static function internalServerError(string $message = "Ocurrio un error con el servidor.") {
+        return new self($message, 500);
+    }
 }
