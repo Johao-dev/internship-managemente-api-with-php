@@ -26,7 +26,7 @@ class ApiException extends Exception {
         return new self($message, 400);
     }
 
-    public static function conflict(string $message = "Ocurrio un conflicot.") {
+    public static function conflict(string $message = "Ocurrio un conflicto.") {
         return new self($message, 409);
     }
 
