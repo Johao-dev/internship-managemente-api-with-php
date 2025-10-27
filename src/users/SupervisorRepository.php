@@ -21,6 +21,15 @@ class SupervisorRepository {
         );
     }
 
+    public function findByUserId(int $userId) {
+        return $this->executor->execute(
+            "CALL sp_get_by_user_id_supervisor(:userId);",
+            ['userId', $userId],
+            false,
+            SupervisorEntity::class
+        );
+    }
+
     public function findAll() {
         return $this->executor->execute(
             "CALL sp_get_all_supervisors();",

@@ -42,6 +42,12 @@ BEGIN
 	SELECT * FROM users WHERE role = p_role;
 END $$
 
+-- GETL ALL ACTIVE
+CREATE PROCEDURE sp_get_all_active_users()
+BEGIN
+	SELECT * FROM users WHERE active = 1;
+END $$
+
 -- UPDATE
 CREATE PROCEDURE sp_update_user(
     IN p_id INT,
@@ -92,6 +98,12 @@ END $$
 CREATE PROCEDURE sp_get_by_id_supervisor(IN p_id INT)
 BEGIN
     SELECT * FROM supervisors WHERE id = p_id;
+END $$
+
+-- GET BY USER ID
+CREATE PROCEDURE sp_get_by_user_id_supervisor(IN p_user_id INT)
+BEGIN
+	SELECT * FROM supervisors WHERE user_id = p_user_id;
 END $$
 
 -- GET ALL

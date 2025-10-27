@@ -54,6 +54,15 @@ class UserRepository {
         ) ?? [];
     }
 
+    public function findAllActive(): array {
+        return $this->executor->execute(
+            "CALL sp_get_all_active_users()",
+            [],
+            true,
+            UserEntity::class
+        ) ?? [];
+    }
+
     public function findByRole(UserRole $role): array {
         return $this->executor->execute(
             "CALL sp_get_by_role_users(:role)",
