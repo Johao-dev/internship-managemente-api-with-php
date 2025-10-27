@@ -493,7 +493,7 @@ BEGIN
 END $$
 
 -- GET BY MESSAGE ID & USER ID
-CREATE PROCEDURE sp_get_by_message_id_and_user_id_meeting_attendee(
+CREATE PROCEDURE sp_get_by_message_id_and_user_id_message_recipient(
 	IN p_message_id INT,
     IN p_user_id INT
 )

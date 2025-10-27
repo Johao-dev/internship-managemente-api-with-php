@@ -4,9 +4,9 @@ namespace App\messaging;
 
 class MessageRecipientEntity {
 
-    private $id;
-    private $message_id;
-    private $user_id;
-    private $readed;
-    private $read_date;
+    public $id;
+    public $message_id;
+    public $user_id;
+    public $readed;
+    public $read_date;
 }

@@ -10,12 +10,12 @@ enum RecipientType: String {
 
 class MessageEntity {
 
-    private $id;
-    private $title;
-    private $content;
-    private $remitent_id;
-    private $recipient_type;
-    private $send_date;
-    private $active;
-    private $created_at;
+    public $id;
+    public $title;
+    public $content;
+    public $remitent_id;
+    public $recipient_type;
+    public $send_date;
+    public $active;
+    public $created_at;
 }
