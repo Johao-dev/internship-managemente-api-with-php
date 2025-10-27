@@ -4,9 +4,9 @@ namespace App\meetings;
 
 class MeetingAttendeeEntity {
 
-    private $id;
-    private $meeting_id;
-    private $user_id;
-    private $attended;
-    private $comments;
+    public $id;
+    public $meeting_id;
+    public $user_id;
+    public $attended;
+    public $comments;
 }

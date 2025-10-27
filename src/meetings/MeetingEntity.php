@@ -9,12 +9,12 @@ enum MeetingType: String {
 
 class MeetingEntity {
 
-    private $id;
-    private $title;
-    private $description;
-    private $start_datetime;
-    private $estimated_duration;
-    private $type;
-    private $organizer_id;
-    private $created_at;
+    public $id;
+    public $title;
+    public $description;
+    public $start_datetime;
+    public $estimated_duration;
+    public $type;
+    public $organizer_id;
+    public $created_at;
 }
