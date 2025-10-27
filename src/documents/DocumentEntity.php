@@ -11,13 +11,13 @@ enum DocumentType: String {
 
 class DocumentEntity {
 
-    private $id;
-    private $original_name;
-    private $path;
-    private $document_type;
-    private $description;
-    private $up_date;
-    private $up_by_id;
-    private $active;
-    private $created_at;
+    public $id;
+    public $original_name;
+    public $path;
+    public $document_type;
+    public $description;
+    public $up_date;
+    public $up_by_id;
+    public $active;
+    public $created_at;
 }

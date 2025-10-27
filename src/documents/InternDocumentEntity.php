@@ -4,8 +4,8 @@ namespace App\documents;
 
 class InternDocumentEntity {
 
-    private $id;
-    private $document_id;
-    private $intern_id;
-    private $relation_type;
+    public $id;
+    public $document_id;
+    public $intern_id;
+    public $relation_type;
 }
