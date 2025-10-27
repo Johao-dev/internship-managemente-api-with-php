@@ -10,16 +10,16 @@ enum RevisionState: String {
 
 class ActivityReportEntity {
 
-    private $id;
-    private $intern_id;
-    private $supervisor_id;
-    private $title;
-    private $content;
-    private $send_date;
-    private $revision_date;
-    private $revision_state;
-    private $supervisor_comment;
-    private $active;
-    private $created_at;
-    private $updated_at;
+    public $id;
+    public $intern_id;
+    public $supervisor_id;
+    public $title;
+    public $content;
+    public $send_date;
+    public $revision_date;
+    public $revision_state;
+    public $supervisor_comment;
+    public $active;
+    public $created_at;
+    public $updated_at;
 }
