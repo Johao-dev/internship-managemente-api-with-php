@@ -10,12 +10,12 @@ enum UserRole: String {
 
 class UserEntity {
 
-    private $id;
-    private $full_name;
-    private $institutional_email;
-    private $role;
-    private $password;
-    private $created_at;
-    private $updated_at;
-    private $active;
+    public $id;
+    public $full_name;
+    public $institutional_email;
+    public $role;
+    public $password;
+    public $created_at;
+    public $updated_at;
+    public $active;
 }
