@@ -3,13 +3,46 @@
 namespace App\activity_reports;
 
 use App\core\StoredProcedureExecutor;
+use App\config\Database;
+use PDO;
 
 class ActivityReportRepository {
 
     private StoredProcedureExecutor $executor;
+    private PDO $db;
 
     public function __construct() {
         $this->executor = StoredProcedureExecutor::getInstance();
+        $this->db = Database::getInstance()->getConnection();
+    }
+
+    public function createAndGetId(ActivityReportEntity $report) {
+        $sql = "CALL sp_create_activity_report(
+                    :intern_id, :supervisor_id, :title, :content,
+                    :send_date, :revision_date, :revision_state, :supervisor_comment
+                )";
+
+        try {
+            $stmt = $this->db->prepare($sql);
+
+            $stmt->bindValue(":intern_id", $report->intern_id, PDO::PARAM_INT);
+            $stmt->bindValue(":supervisor_id", $report->supervisor_id, PDO::PARAM_INT);
+            $stmt->bindValue(":title", $report->title, PDO::PARAM_STR);
+            $stmt->bindValue(":content", $report->content, PDO::PARAM_STR);
+            $stmt->bindValue(":send_date", $report->send_date, PDO::PARAM_STR);
+            $stmt->bindValue(":revision_date", $report->revision_date, PDO::PARAM_STR);
+            $stmt->bindValue(":revision_state", $report->revision_state, PDO::PARAM_STR);
+            $stmt->bindValue(":supervisor_comment", $report->supervisor_comment, PDO::PARAM_STR);
+
+            $stmt->execute();
+            $stmt->closeCursor();
+
+            return (int)$this->db->lastInsertId();
+
+        } catch (\PDOException $e) {
+            error_log("ActivityReportRepository::createAndGetId error: " . $e->getMessage());
+            return 0;
+        }
     }
 
     public function create(ActivityReportEntity $report): bool {
