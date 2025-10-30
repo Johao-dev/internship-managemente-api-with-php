@@ -10,7 +10,7 @@ use App\users\UserRouter;
 use App\documents\DocumentRouter;
 use App\activity_reports\ActivityReportRouter;
 use App\meetings\MeetingRouter;
-use App\messaging\MessagingRouter;
+use App\messaging\MessageRouter;
 
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Origin: *");
@@ -30,13 +30,8 @@ $response = [
 ];
 
 try {
-    // --- 1. FILTROS (Middleware) ---
-    // El JwtFilter se encargará de autenticar y almacenar al usuario
-    // en AuthenticatedUserHandler.
-    // Lo llamamos en CADA petición, y él decidirá si la ruta es pública o no.
     JwtFilter::handle();
 
-    // --- 2. ENRUTADOR PRINCIPAL (ApiRouter) ---
     $resource = $_GET['resource'] ?? null;
     $router = null;
 
@@ -60,25 +55,20 @@ try {
             $router = new MeetingRouter();
             break;
         case 'messaging':
-            $router = new MessagingRouter();
+            $router = new MessageRouter();
     }
 
     if ($router) {
-        // --- 3. DELEGACIÓN AL SUB-ROUTER ---
-        // Cada router (ej. InternRouter) manejará su propia lógica
-        // basada en $_GET['op'], $_GET['id'], $_SERVER['REQUEST_METHOD'], etc.
         $response = $router->handleRequest();
     } else {
         $statusCode = 404;
     }
 
 } catch (ApiException $ex) {
-    // Manejar excepciones de API personalizadas (ej. 401, 403, 404)
     $statusCode = $ex->getCode();
     $response['success'] = false;
     $response['message'] = $ex->getMessage();
 } catch (Exception $ex) {
-    // Manejar errores inesperados del servidor
     $statusCode = 500;
     $response['success'] = false;
     $response['message'] = 'Internal Server Error';

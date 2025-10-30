@@ -4,6 +4,7 @@ namespace App\auth;
 
 use App\core\ApiException;
 use App\core\AuthenticatedUserHandler;
+use App\users\UserRepository;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Exception;
@@ -11,19 +12,17 @@ use Exception;
 class JwtFilter {
 
     private static $publicRoutes = [
-        'auth' => ['login', 'register'] //ej. api.php?resource=auth&op=login
+        'auth' => ['login', 'register']
     ];
 
     public static function handle() {
         $resource = $_GET['resource'] ?? null;
         $operation = $_GET['op'] ?? null;
 
-        // verifica que la ruta es publica
         if (isset(self::$publicRoutes[$resource]) && in_array($operation, self::$publicRoutes[$resource])) {
-            return; // es publica, no se necesita token
+            return;
         }
 
-        // si no es publica, existe un token
         $token = self::getBearerToken();
         if (!$token) {
             throw ApiException::unauthorized('Token no proporcionado.');
@@ -33,24 +32,19 @@ class JwtFilter {
             $secretKey = getenv('JWT_SECRET' ?: 'this-is-an-super-duper-password-12');
             $payload = JWT::decode($token, new Key($secretKey, 'HS256'));
 
-            // 3. El token es válido. Buscar al usuario en la BD
-            // (Aquí deberías usar tu UserRepository)
-            // $userRepository = new \App\users\UserRepository();
-            // $user = $userRepository->findById($payload->sub); // 'sub' es el ID de usuario
-
-            // --- INICIO: Simulación mientras creas UserRepository ---
-            if (!isset($payload->sub) || !isset($payload->role)) {
-                throw new Exception('Payload de JWT inválido.');
+            if (!isset($payload->id)) {
+                throw ApiException::forbidden("Payload de JWT invalido. Falta 'id'.");
             }
-            $user = (object)[
-                'id' => $payload->sub,
-                'role' => $payload->role,
-                'email' => $payload->email
-            ];
-            // --- FIN: Simulación ---
+
+            $userRepository = new UserRepository();
+            $user = $userRepository->findById($payload->id);
 
             if (!$user) {
                 throw ApiException::unauthorized('Usuario del token no encontrado.');
+            }
+
+            if (!$user->active) {
+                throw ApiException::unauthorized("La cuenta del usuario esta desactivada.");
             }
 
             AuthenticatedUserHandler::setUser($user);
