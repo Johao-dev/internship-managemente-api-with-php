@@ -800,6 +800,12 @@ BEGIN
     SELECT * FROM intern_documents;
 END $$
 
+-- GET ALL BY DOCUMENT ID
+CREATE PROCEDURE sp_get_all_by_document_id_links(IN p_document_id INT)
+BEGIN
+	SELECT * FROM intern_documents WHERE document_id = p_document_id;
+END $$
+
 -- UPDATE
 CREATE PROCEDURE sp_update_intern_document(
     IN p_id INT,
