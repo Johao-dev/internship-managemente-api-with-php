@@ -3,13 +3,39 @@
 namespace App\meetings;
 
 use App\core\StoredProcedureExecutor;
+use App\config\Database;
+use PDO;
 
 class MeetingAttendeeRepository {
 
     private StoredProcedureExecutor $executor;
+    private PDO $db;
 
     public function __construct() {
         $this->executor = StoredProcedureExecutor::getInstance();
+        $this->db = Database::getInstance()->getConnection();
+    }
+
+    public function createAndGetId(MeetingAttendeeEntity $attendee) {
+        $sql = "CALL sp_create_meeting_attendee(:meeting_id, :user_id, :attended, :comments)";
+
+        try {
+            $stmt = $this->db->prepare($sql);
+
+            $stmt->bindValue(":meeting_id", $attendee->meeting_id, PDO::PARAM_INT);
+            $stmt->bindValue(":user_id", $attendee->user_id, PDO::PARAM_INT);
+            $stmt->bindValue(":attended", $attendee->attended, PDO::PARAM_STR);
+            $stmt->bindValue(":comments", $attendee->comments, PDO::PARAM_STR);
+
+            $stmt->execute();
+            $stmt->closeCursor();
+
+            return (int)$this->db->lastInsertId();
+
+        } catch (\PDOException $e) {
+            error_log("MeetingAttendeeRepository::createAndGetId error: " . $e->getMessage());
+            return 0;
+        }
     }
 
     public function create(MeetingAttendeeEntity $attendee): bool {
@@ -64,6 +90,15 @@ class MeetingAttendeeRepository {
             true,
             MeetingAttendeeEntity::class
         ) ?? [];
+    }
+
+    public function findAllByUserId(int $userId): array {
+        return $this->executor->execute(
+            "CALL sp_get_all_by_user_id_meeting_attendees(:user_id)",
+            ['meeting_id', $userId],
+            true,
+            MeetingAttendeeEntity::class
+        );
     }
 
     public function update(MeetingAttendeeEntity $attendee): bool {

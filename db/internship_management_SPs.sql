@@ -366,6 +366,12 @@ BEGIN
 	SELECT * FROM meeting_attendees WHERE meeting_id = p_meeting_id;
 END $$
 
+-- GET ALL BY USER ID
+CREATE PROCEDURE sp_get_all_by_user_id_meeting_attendees(IN p_user_id INT)
+BEGIN
+	SELECT * FROM meeting_attendees WHERE user_id = p_user_id;
+END $$
+
 -- UPDATE
 CREATE PROCEDURE sp_update_meeting_attendee(
     IN p_id INT,

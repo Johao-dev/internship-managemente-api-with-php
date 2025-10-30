@@ -3,13 +3,44 @@
 namespace App\meetings;
 
 use App\core\StoredProcedureExecutor;
+use App\config\Database;
+use PDO;
 
 class MeetingRepository {
 
     private StoredProcedureExecutor $executor;
+    private PDO $db;
 
     public function __construct() {
         $this->executor = StoredProcedureExecutor::getInstance();
+        $this->db = Database::getInstance()->getConnection();
+    }
+
+    public function createAndGetId(MeetingEntity $meeting) {
+        $sql = "CALL sp_create_meeting(
+                :title, :description, :start_datetime,
+                :estimated_duration, :type, :organizer_id
+        )";
+
+        try {
+            $stmt = $this->db->prepare($sql);
+
+            $stmt->bindValue(":title", $meeting->title, PDO::PARAM_STR);
+            $stmt->bindValue(":description", $meeting->description, PDO::PARAM_STR);
+            $stmt->bindValue(":start_datetime", $meeting->start_datetime, PDO::PARAM_STR);
+            $stmt->bindValue(":estimated_duration", $meeting->estimated_duration, PDO::PARAM_INT);
+            $stmt->bindValue(":type", $meeting->type, PDO::PARAM_STR);
+            $stmt->bindValue(":organizer_id", $meeting->organizer_id, PDO::PARAM_INT);
+
+            $stmt->execute();
+            $stmt->closeCursor();
+
+            return (int)$this->db->lastInsertId();
+
+        } catch (\PDOException $e) {
+            error_log("MeetingRepository::createAndGetId error: " . $e->getMessage());
+            return 0;
+        }
     }
 
     public function create(MeetingEntity $meeting): bool {
