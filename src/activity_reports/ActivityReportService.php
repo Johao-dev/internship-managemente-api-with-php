@@ -47,8 +47,6 @@ class ActivityReportService {
         $newReport->revision_date = null;
         $newReport->supervisor_comment = null;
 
-        // 3. Guardar y obtener el nuevo ID
-        // Como se discutió, este método create() modificado debe devolver el ID
         $newReportId = $this->reportRepository->createAndGetId($newReport);
         if ($newReportId === 0) {
             throw ApiException::internalServerError("No se pudo guardar el reporte.");
