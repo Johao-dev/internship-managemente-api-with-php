@@ -3,13 +3,39 @@
 namespace App\messaging;
 
 use App\core\StoredProcedureExecutor;
+use App\config\Database;
+use PDO;
 
 class MessageRepository {
 
     private StoredProcedureExecutor $executor;
+    private PDO $db;
+
 
     public function __construct() {
         $this->executor = StoredProcedureExecutor::getInstance();
+        $this->db = Database::getInstance()->getConnection();
+    }
+
+    public function createAndGetId(MessageEntity $message): int {
+        $sql = "CALL sp_create_message(:title, :content, :remitent_id, :recipient_type)";
+        
+        try {
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindValue(":title", $message->title, PDO::PARAM_STR);
+            $stmt->bindValue(":content", $message->content, PDO::PARAM_STR);
+            $stmt->bindValue(":remitent_id", $message->remitent_id, PDO::PARAM_INT);
+            $stmt->bindValue(":recipient_type", $message->recipient_type, PDO::PARAM_STR);
+            
+            $stmt->execute();
+            $stmt->closeCursor();
+
+            return (int)$this->db->lastInsertId();
+
+        } catch (\PDOException $e) {
+            error_log("MessageRepository::createAndGetId error: " . $e->getMessage());
+            return 0;
+        }
     }
 
     public function create(MessageEntity $message): bool {

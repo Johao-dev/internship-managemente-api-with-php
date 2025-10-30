@@ -57,6 +57,15 @@ class MessageRecipientRepository {
         ) ?? [];
     }
 
+    public function findAllByMessageId(int $messageId) {
+        return $this->executor->execute(
+            "CALL sp_get_all_by_message_id_recipients(:message_id)",
+            ['message_id', $messageId],
+            true,
+            MessageRecipientEntity::class
+        ) ?? [];
+    }
+
     public function update(MessageRecipientEntity $recipient): bool {
         return $this->executor->execute(
             "CALL sp_update_message_recipient(:id, :message_id, :user_id, :readed, :read_date)",

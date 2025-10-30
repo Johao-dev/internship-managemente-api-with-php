@@ -528,6 +528,12 @@ BEGIN
     SELECT * FROM message_recipients;
 END $$
 
+-- GETL ALL BY MESSAGE ID
+CREATE PROCEDURE sp_get_all_by_message_id_recipients(IN p_message_id INT)
+BEGIN
+    SELECT * FROM message_recipients WHERE message_id = p_message_id;
+END $$
+
 -- UPDATE
 CREATE PROCEDURE sp_update_message_recipient(
     IN p_id INT,
