@@ -29,7 +29,7 @@ class JwtFilter {
         }
 
         try {
-            $secretKey = getenv('JWT_SECRET' ?: 'this-is-an-super-duper-password-12');
+            $secretKey = getenv('JWT_SECRET') ?: 'this-is-an-super-duper-password-12';
             $payload = JWT::decode($token, new Key($secretKey, 'HS256'));
 
             if (!isset($payload->id)) {
