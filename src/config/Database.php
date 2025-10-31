@@ -18,7 +18,7 @@ class Database {
 
     private function __construct() {
         $this->host = getenv('DB_HOST') ?: 'localhost';
-        $this->dbname = getenv('DB_NAME' ?: 'internship_management_dev');
+        $this->dbname = getenv('DB_NAME') ?: 'internship_management_dev';
         $this->username = getenv('DB_USERNAME') ?: 'notzuzz';
         $this->password = getenv('DB_PASSWORD') ?: 'zuzz1212M@_';
 
