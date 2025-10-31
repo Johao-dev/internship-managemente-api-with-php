@@ -54,12 +54,22 @@ class JwtFilter {
     }
 
     private static function getBearerToken() {
-        $authHeader = $_SERVER['HTTP_AUTHORIZATION'] ?? null;
-        if ($authHeader) {
-            if (preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
-                return $matches[1];
+        $authHeader = $_SERVER['HTTP_AUTHORIZATION']
+            ?? $_SERVER['REDIRECT_HTTP_AUTHORIZATION']
+            ?? null;
+
+        if (!$authHeader && function_exists('apache_request_headers')) {
+            $headers = apache_request_headers();
+            if (isset($headers['Authorization'])) {
+                $authHeader = $headers['Authorization'];
             }
         }
+
+        if ($authHeader && preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
+            return $matches[1];
+        }
+
         return null;
     }
+
 }
