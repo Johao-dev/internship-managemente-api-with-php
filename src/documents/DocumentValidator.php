@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\documents;
 
 use App\core\ApiException;
 use App\documents\dtos\LinkDocumentToIntern;
