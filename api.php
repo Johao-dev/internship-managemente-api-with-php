@@ -60,6 +60,7 @@ try {
 
     if ($router) {
         $response = $router->handleRequest();
+        $statusCode = http_response_code();
     } else {
         $statusCode = 404;
     }
