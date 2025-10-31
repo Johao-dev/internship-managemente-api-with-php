@@ -6,8 +6,8 @@ use Exception;
 
 class ApiException extends Exception {
 
-    public function __construct($message, $code = 400, Exception $previous = null) {
-        parent::__construct($message, $code, $previous);
+    public function __construct(string $message, int $code = 400, ?Exception $previous = null) {
+    parent::__construct($message, $code, $previous);
     }
 
     public static function notFound(string $message = 'Recurso no encontrado.') {
