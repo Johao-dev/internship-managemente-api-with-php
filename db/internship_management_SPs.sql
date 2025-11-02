@@ -600,6 +600,7 @@ BEGIN
         p_intern_id, p_supervisor_id, p_title, p_content,
         p_send_date, p_revision_date, p_revision_state, p_supervisor_comment
     );
+    SELECT LAST_INSERT_ID() AS id;
 END $$
 
 -- GET BY ID

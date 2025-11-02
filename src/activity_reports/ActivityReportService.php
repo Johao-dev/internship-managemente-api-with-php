@@ -47,7 +47,7 @@ class ActivityReportService {
         $newReport->revision_date = null;
         $newReport->supervisor_comment = null;
 
-        $newReportId = $this->reportRepository->createAndGetId($newReport);
+        $newReportId = $this->reportRepository->create($newReport);
         if ($newReportId === 0) {
             throw ApiException::internalServerError("No se pudo guardar el reporte.");
         }
