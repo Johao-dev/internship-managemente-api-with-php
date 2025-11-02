@@ -246,6 +246,7 @@ BEGIN
         p_title, p_description, p_start_datetime,
         p_estimated_duration, p_type, p_organizer_id
     );
+    SELECT LAST_INSERT_ID() AS id;
 END $$
 
 -- GET BY ID
@@ -334,6 +335,7 @@ BEGIN
     ) VALUES (
         p_meeting_id, p_user_id, p_attended, p_comments
     );
+    SELECT LAST_INSERT_ID() AS id;
 END $$
 
 -- GET BY ID
@@ -417,6 +419,7 @@ BEGIN
     ) VALUES (
         p_title, p_content, p_remitent_id, p_recipient_type
     );
+    SELECT LAST_INSERT_ID() AS id;
 END $$
 
 -- GET BY ID
@@ -697,6 +700,7 @@ BEGIN
     ) VALUES (
         p_original_name, p_path, p_document_type, p_description, p_up_by_id
     );
+    SELECT LAST_INSERT_ID() AS id;
 END $$
 
 -- GET BY ID
@@ -775,6 +779,7 @@ BEGIN
     ) VALUES (
         p_document_id, p_intern_id, p_relation_type
     );
+    SELECT LAST_INSERT_ID() AS id;
 END $$
 
 -- GET BY ID

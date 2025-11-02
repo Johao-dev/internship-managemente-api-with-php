@@ -32,7 +32,7 @@ class MessagingService {
         $newMessage->recipient_type = $sendDto->recipientType;
         $newMessage->remitent_id = $sendDto->remitentId;
 
-        $newMsgId = $this->messageRepository->createAndGetId($newMessage);
+        $newMsgId = $this->messageRepository->create($newMessage);
         if ($newMsgId === 0) {
             throw ApiException::internalServerError("No se pudo guardar el mensaje.");
         }

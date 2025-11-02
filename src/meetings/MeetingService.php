@@ -39,7 +39,7 @@ class MeetingService {
         $newMeeting->type = $createDto->type;
         $newMeeting->organizer_id = $createDto->organizerId;
 
-        $newMeetingId = $this->meetingRepository->createAndGetId($newMeeting);
+        $newMeetingId = $this->meetingRepository->create($newMeeting);
         if ($newMeetingId === 0) {
             throw ApiException::internalServerError("No se pudo crear la reunión.");
         }
@@ -104,7 +104,7 @@ class MeetingService {
         $newAttendee->user_id = $addDto->userId;
         $newAttendee->attended = 0;
 
-        $newAttendeeId = $this->attendeeRepository->createAndGetId($newAttendee);
+        $newAttendeeId = $this->attendeeRepository->create($newAttendee);
         if ($newAttendeeId === 0) {
             throw ApiException::internalServerError("No se pudo agregar al asistente.");
         }

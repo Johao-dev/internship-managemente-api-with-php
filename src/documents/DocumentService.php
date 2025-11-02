@@ -57,7 +57,7 @@ class DocumentService {
         $newDocument->up_by_id = $uploadDto->upById;
         $newDocument->up_date = date('Y-m-d H:i:s');
 
-        $newDocId = $this->documentRepository->createAndGetId($newDocument);
+        $newDocId = $this->documentRepository->create($newDocument);
         if ($newDocId === 0) {
             throw new ApiException("No se pudo guardar el registro del documento.", 500);
         }
@@ -109,7 +109,7 @@ class DocumentService {
         $newLink->intern_id = $linkDto->internId;
         $newLink->relation_type = $linkDto->relationType;
 
-        $newLinkId = $this->internDocRepository->createAndGetId($newLink);
+        $newLinkId = $this->internDocRepository->create($newLink);
         if ($newLinkId === 0) {
             throw ApiException::internalServerError("No se pudo vincular el documento.");
         }

@@ -3,42 +3,16 @@
 namespace App\documents;
 
 use App\core\StoredProcedureExecutor;
-use App\config\Database;
-use PDO;
 
 class DocumentRepository {
 
     private StoredProcedureExecutor $executor;
-    private PDO $db;
 
     public function __construct() {
         $this->executor = StoredProcedureExecutor::getInstance();
-        $this->db = Database::getInstance()->getConnection();
     }
 
-    public function createAndGetId(DocumentEntity $doc): int {
-        $sql = "CALL sp_create_document(:original_name, :path, :document_type, :description, :up_by_id)";
-        
-        try {
-            $stmt = $this->db->prepare($sql);
-            $stmt->bindValue(":original_name", $doc->original_name, PDO::PARAM_STR);
-            $stmt->bindValue(":path", $doc->path, PDO::PARAM_STR);
-            $stmt->bindValue(":document_type", $doc->document_type, PDO::PARAM_STR);
-            $stmt->bindValue(":description", $doc->description, PDO::PARAM_STR);
-            $stmt->bindValue(":up_by_id", $doc->up_by_id, PDO::PARAM_INT);
-
-            $stmt->execute();
-            $stmt->closeCursor();
-
-            return (int)$this->db->lastInsertId();
-
-        } catch (\PDOException $e) {
-            error_log("DocumentRepository::createAndGetId error: " . $e->getMessage());
-            return 0;
-        }
-    }
-
-    public function create(DocumentEntity $document): bool {
+    public function create(DocumentEntity $document): int|bool {
         return $this->executor->execute(
             "CALL sp_create_document(:original_name, :path, :document_type, :description, :up_by_id)",
             [
