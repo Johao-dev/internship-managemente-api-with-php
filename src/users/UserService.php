@@ -11,15 +11,18 @@ use App\users\dtos\UpdateUser;
 use App\users\dtos\UserDeleted;
 use App\users\dtos\UserResponse;
 use App\users\dtos\UserUpdatedResponse;
+use App\notifications\NotificationService;
 
 class UserService {
 
     private UserRepository $userRepository;
     private SupervisorRepository $supervisorRepository;
+    private NotificationService $notificationService;
 
     public function __construct() {
         $this->userRepository = new UserRepository();
         $this->supervisorRepository = new SupervisorRepository();
+        $this->notificationService = new NotificationService();
     }
 
     public function createUser(CreateUser $createUserDto): NewUserCreated {
@@ -42,6 +45,7 @@ class UserService {
         }
 
         $savedUser = $this->userRepository->findByEmail($newUser->institutional_email);
+        $this->notificationService->sendWelcomeEmail($savedUser, $createUserDto->password);
 
         return Mapper::mapToDto(NewUserCreated::class, $savedUser);
     }
