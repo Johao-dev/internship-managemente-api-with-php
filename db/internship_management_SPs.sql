@@ -443,7 +443,7 @@ END $$
 -- GET ALL BY USER ID
 CREATE PROCEDURE sp_get_inbox_by_user_id_messages(IN p_user_id INT)
 BEGIN
-	SELECT * FROM messages m
+	SELECT m.* FROM messages m
     INNER JOIN message_recipients mr ON mr.message_id = m.id
     WHERE mr.user_id = p_user_id;
 END $$
