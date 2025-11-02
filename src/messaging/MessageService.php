@@ -141,7 +141,6 @@ class MessageService {
     private function buildRecipientResponse(MessageRecipientEntity $recipient): MessageRecipientResponse {
         $response = Mapper::mapToDto(MessageRecipientResponse::class, $recipient);
         $response->messageId = $recipient->message_id;
-        $response->userId = $recipient->user_id;
         $response->user = $this->userService->findUserById($recipient->user_id);
         return $response;
     }
