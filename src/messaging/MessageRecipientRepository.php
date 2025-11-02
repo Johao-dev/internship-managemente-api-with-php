@@ -60,7 +60,7 @@ class MessageRecipientRepository {
     public function findAllByMessageId(int $messageId) {
         return $this->executor->execute(
             "CALL sp_get_all_by_message_id_recipients(:message_id)",
-            ['message_id', $messageId],
+            ['message_id' => $messageId],
             true,
             MessageRecipientEntity::class
         ) ?? [];
