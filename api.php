@@ -11,11 +11,19 @@ use App\documents\DocumentRouter;
 use App\activity_reports\ActivityReportRouter;
 use App\meetings\MeetingRouter;
 use App\messaging\MessageRouter;
+use Dotenv\Dotenv;
 
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
+
+try {
+    $dotenv = Dotenv::createImmutable(__DIR__);
+    $dotenv->load();
+} catch (Exception $e) {
+    die('No se pudo cargar el archivo .env ' . $e->getMessage());
+}
 
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     http_response_code(200);
