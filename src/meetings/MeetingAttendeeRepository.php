@@ -69,10 +69,10 @@ class MeetingAttendeeRepository {
     public function findAllByUserId(int $userId): array {
         return $this->executor->execute(
             "CALL sp_get_all_by_user_id_meeting_attendees(:user_id)",
-            ['meeting_id', $userId],
+            ['user_id' => $userId],
             true,
             MeetingAttendeeEntity::class
-        );
+        ) ?? [];
     }
 
     public function update(MeetingAttendeeEntity $attendee): bool {
