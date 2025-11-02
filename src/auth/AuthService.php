@@ -62,7 +62,7 @@ class AuthService {
     }
 
     private function generateJwt(array $payload): string {
-        $secretKey = getenv('JWT_SECRET') ?: 'this-is-an-super-duper-password-12';
+        $secretKey = $_ENV['JWT_SECRET'];
         return JWT::encode($payload, $secretKey, 'HS256');
     }
 }
