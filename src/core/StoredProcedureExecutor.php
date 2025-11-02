@@ -36,10 +36,16 @@ class StoredProcedureExecutor {
                 $stmt->bindValue(":$key", $value, $paramType);
             }
 
-            $executionResult = $stmt->execute();
+            $stmt->execute();
 
             if ($isNonQuery) {
-                return $executionResult;
+                $result = $stmt->fetch(PDO::FETCH_OBJ);
+                $stmt->closeCursor();
+
+                if ($result && isset($result->id)) {
+                    return (int) $result->id;
+                }
+                return true;
             }
 
             if ($class) {
