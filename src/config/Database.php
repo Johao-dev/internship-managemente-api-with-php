@@ -2,6 +2,7 @@
 
 namespace App\config;
 
+use App\core\ApiException;
 use PDO;
 use PDOException;
 
@@ -17,13 +18,11 @@ class Database {
     private $port;
 
     private function __construct() {
-        $this->host = getenv('DB_HOST') ?: 'localhost';
-        $this->dbname = getenv('DB_NAME') ?: 'internship_management_dev';
-        $this->username = getenv('DB_USERNAME') ?: 'notzuzz';
-        $this->password = getenv('DB_PASSWORD') ?: 'zuzz1212M@_';
-
-        // only dev, in prod is 3306
-        $this->port = 3341;
+        $this->host = $_ENV['DB_HOST'];
+        $this->dbname = $_ENV['DB_NAME'];
+        $this->username = $_ENV['DB_USERNAME'];
+        $this->password = $_ENV['DB_PASSWORD'];
+        $this->port = $_ENV['DB_PORT'];
 
         $dsn = 'mysql:host=' . $this->host . ';port=' . $this->port . ';dbname=' . $this->dbname . ';charset=utf8';
 
@@ -32,7 +31,7 @@ class Database {
             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
         } catch (PDOException $ex) {
-            throw new \Exception('Error de conexion a la base de datos.');
+            throw ApiException::internalServerError('Error de conexion a la base de datos: ' . $ex->getMessage());
         }
     }
 
