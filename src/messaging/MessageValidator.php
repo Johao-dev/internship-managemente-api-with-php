@@ -6,7 +6,7 @@ use App\core\ApiException;
 use App\messaging\dtos\MarkMessageAsRead;
 use App\messaging\dtos\SendMessage;
 
-class MessagingValidator {
+class MessageValidator {
 
     public static function validateSend(array $data): SendMessage {
         if (empty($data['title']) || !is_string($data['title'])) {

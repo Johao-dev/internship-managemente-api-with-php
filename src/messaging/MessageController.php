@@ -6,14 +6,14 @@ use App\core\ApiException;
 use App\core\AuthenticatedUserHandler;
 use App\users\UserRole;
 
-class MessagingController {
+class MessageController {
 
-    private MessagingService $messagingService;
-    private MessagingValidator $validator;
+    private MessageService $messagingService;
+    private MessageValidator $validator;
 
     public function __construct() {
-        $this->messagingService = new MessagingService();
-        $this->validator = new MessagingValidator();
+        $this->messagingService = new MessageService();
+        $this->validator = new MessageValidator();
     }
 
     public function sendMessage() {

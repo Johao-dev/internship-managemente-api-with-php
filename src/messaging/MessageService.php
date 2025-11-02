@@ -13,7 +13,7 @@ use App\messaging\dtos\SentMessage;
 use App\users\UserService;
 use App\users\UserRole;
 
-class MessagingService {
+class MessageService {
 
     private MessageRepository $messageRepository;
     private MessageRecipientRepository $recipientRepository;

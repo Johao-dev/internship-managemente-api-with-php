@@ -8,10 +8,10 @@ use App\users\UserRole;
 
 class MessageRouter {
 
-    private MessagingController $controller;
+    private MessageController $controller;
 
     public function __construct() {
-        $this->controller = new MessagingController();
+        $this->controller = new MessageController();
     }
 
     public function handleRequest() {
