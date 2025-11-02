@@ -59,7 +59,7 @@ class DocumentService {
 
         $newDocId = $this->documentRepository->create($newDocument);
         if ($newDocId === 0) {
-            throw new ApiException("No se pudo guardar el registro del documento.", 500);
+            throw ApiException::internalServerError("No se pudo guardar el registro del documento.");
         }
 
         $savedDocument = $this->findDocumentOrFail($newDocId);
