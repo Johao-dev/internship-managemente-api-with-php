@@ -22,7 +22,7 @@ try {
     $dotenv = Dotenv::createImmutable(__DIR__);
     $dotenv->load();
 } catch (Exception $e) {
-    die('No se pudo cargar el archivo .env ' . $e->getMessage());
+    // die('No se pudo cargar el archivo .env ' . $e->getMessage());
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
